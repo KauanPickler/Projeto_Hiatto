@@ -13,18 +13,18 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            "Usuarios",
-            "Produtos",
-            "Movimentacoes",
-            "Pedidos",
-            "Perfis_de_Usuario",
-            "Codigo_de_Barras",
+            'Usuarios',
+            'Produtos',
+            'Movimentacoes',
+            'Pedidos',
+            'Perfis_de_Usuario',
+            'Codigo_de_Barras',
         ];
 
-        foreach($permissions as $permission){
+        foreach ($permissions as $permission) {
             Permission::firstOrCreate([
                 'name' => $permission,
-                'guard_name' => 'api'
+                'guard_name' => 'api',
             ]);
         }
     }

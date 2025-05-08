@@ -10,6 +10,7 @@ services:
     restart: unless-stopped
     volumes:
       - .:/var/www
+    working_dir: /var/www 
     depends_on:
       - mysql
     networks:

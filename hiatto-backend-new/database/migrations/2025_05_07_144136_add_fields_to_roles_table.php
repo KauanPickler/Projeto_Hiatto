@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('codigo_pai');
-            $table->string('marca');
-
+        Schema::table('roles', function (Blueprint $table): void {
+            $table->after('guard_name', function (Blueprint $table): void {
+            });
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_products');
+        
     }
 };
