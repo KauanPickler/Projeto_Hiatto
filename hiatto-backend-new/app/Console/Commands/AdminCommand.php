@@ -14,7 +14,7 @@ class AdminCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:admin-command';
+    protected $signature = 'import:admin';
 
     /**
      * The console command description.
@@ -30,7 +30,7 @@ class AdminCommand extends Command
     {
         $admin = Role::firstOrCreate([
             'name' => 'admin',
-            'guard_name' => 'sanctum',
+            'guard_name' => 'web',
         ]);
         $allpermission = Permission::pluck('name');
         $admin->syncPermissions($allpermission);

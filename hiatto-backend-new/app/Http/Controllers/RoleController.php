@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+  
     public function index()
     {
+        
         $user = User::all();
 
         return response()->json([
@@ -47,86 +49,41 @@ class RoleController extends Controller
 
     }
 
-    
 
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-         
-
+        $role = Role::findOrFail($id);
         try {
-
-            $permissions = Permission::whereIn('id', $request->permissions)->get();
-
+            $validatedData = $request->validate([
+                'name' => 'required|string|unique:roles,name,' . $role->id,
+                'permissions' => 'required|array',
+                'permissions.*' => 'exists:permissions,id',
+            ]);
+    
+            
+            
+    
             $role->update([
-
-                'name' => $request->name,
+                'name' => $validatedData['name'],
                 'guard_name' => 'sanctum',
             ]);
-
+    
+            $permissions = Permission::whereIn('id', $validatedData['permissions'])->get();
             $role->syncPermissions($permissions);
-            
-
+    
             return response()->json([
                 'message' => 'Perfil Atualizado com Sucesso',
                 'Permissoes do Usuario' => $permissions,
-                'Antigo' => $role->name
             ]);
-
+    
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Erro ao atualizar usuario',
                 'error' => $e->getMessage(),
-            ]);
-
+            ], 500);
         }
-
     }
-
-    public function grantPermission(Request $request, User $user)
-    {
-
-        try {
-            $permissions = [
-                1 => 'Usuarios',
-                2 => 'Produtos',
-                3 => 'Movimentacoes',
-                4 => 'Pedidos',
-                5 => 'Perfis_de_Usuario',
-            ];
-
-            foreach ($request->permission as $permi) {
-                $permissionSelection = $permissions[$permi];
-                $user->givePermissionTo(Permission::findByName($permissionSelection, 'api'));
-            }
-
-            return response()->json([
-                'message' => 'Permissão concedida com sucesso',
-                'Dados do Usuario' => $user,
-                'Permissão' => $user->getAllPermissions(),
-            ]);
-
-        } 
-        catch (\Exception $e) {
-
-            return response()->json([
-                'message' => 'Erro ao conceder permissão',
-                'error' => $e->getMessage(),
-            ]);
-
-        }
-
-    }
-
-    public function logout(User $user)
-    {
-
-        $user->tokens()->delete();
-
-        return response()->json([
-            'message' => 'Usuario deslogado com sucesso',
-            'Dados do Usuario' => $user,
-        ]);
-
-    }
+    
+    
     
 }

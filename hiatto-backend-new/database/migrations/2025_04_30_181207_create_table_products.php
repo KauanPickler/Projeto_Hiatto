@@ -13,9 +13,19 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo_pai');
-            $table->string('marca');
-
+            $table->string('codigo');
+            $table->string('name');
+            $table->string('brand');
+            $table->float('weight');
+            $table->string('unitOfMeasurement');
+            $table->string('taxOrigin');
+            $table->string('derivations');
+            $table->string('categories');
+            $table->string('ncm');
+            $table->string('cest');
+            $table->string('TaxSituation');
+            $table->string('stores');
+            $table->date('releaseDate');
         });
     }
 

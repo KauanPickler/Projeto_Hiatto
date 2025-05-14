@@ -13,7 +13,11 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+'magazord' => [
+    'token'    => env('MAGAZORD_TOKEN'),
+    'password' => env('MAGAZORD_PASSWORD'),
+    'base_url' => env('MAGAZORD_BASE_URL_V2'),
+],
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
