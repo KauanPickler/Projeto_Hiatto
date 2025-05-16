@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
     public function index()
     {
+        
         $user = User::all();
 
         return response()->json([
@@ -21,6 +23,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        
         try {
             $user = User::create([
                 'name' => $request->name,

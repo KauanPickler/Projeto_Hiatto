@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('tipo_movimentacao');
             $table->text('nota_fiscal');
             $table->text('observacao');
+            $table->text('data_criacao')->nullable();
+            $table->text('data_atualizacao')->nullable();
         });
     }
 

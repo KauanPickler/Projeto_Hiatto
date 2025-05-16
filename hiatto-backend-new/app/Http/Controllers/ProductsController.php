@@ -17,8 +17,21 @@ class ProductsController extends Controller {
         ]);
     }
 
-    function show($id) {
-        
+    function show(Request $request) {
+        $search = $request->input('search');
+        $product = Products::where('codigo', $search)
+                        ->orWhere('name', 'like', '%' . $search . '%')->get();
+                        
+        if ($product) {
+            return response()->json([
+                'message' => 'Produto encontrado',
+                'data' => $product,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Produto não encontrado',
+            ], 404);
+        }
     }   
 
      public function store(Request $request) {
